@@ -1,0 +1,74 @@
+<?xml version="1.0"?>
+<!--
+/**
+ * @category   Borriglione
+ * @package    Borriglione_ActiveCustomerStore
+ * @copyright  Copyright (c) 2014 André Herrn <info@andre-herrn.de>
+ * @license    http://opensource.org/licenses/osl-3.0.php  Open Software License (OSL 3.0)
+ */
+-->
+<config>
+
+    <modules>
+        <Borriglione_ActiveCustomerStore>
+            <version>0.1.0</version>
+        </Borriglione_ActiveCustomerStore>
+    </modules>
+
+    <global>
+        <models>
+            <activecustomerstore>
+                <class>Borriglione_ActiveCustomerStore_Model</class>
+            </activecustomerstore>
+        </models>
+
+        <helpers>
+            <activecustomerstore>
+                <class>Borriglione_ActiveCustomerStore_Helper</class>
+            </activecustomerstore>
+        </helpers>
+
+        <resources>
+            <activecustomerstore_setup>
+                <setup>
+                    <module>Borriglione_ActiveCustomerStore</module>
+                    <class>Mage_Customer_Model_Entity_Setup</class>
+                </setup>
+            </activecustomerstore_setup>
+        </resources>
+    </global>
+
+    <adminhtml>
+        <events>
+            <adminhtml_customer_prepare_save>
+                <observers>
+                    <activecustomerstore_save_storeid>
+                        <type>singleton</type>
+                        <class>activecustomerstore/observer</class>
+                        <method>saveStoreId</method>
+                    </activecustomerstore_save_storeid>
+                </observers>
+            </adminhtml_customer_prepare_save>
+
+            <adminhtml_block_html_before>
+                <observers>
+                    <activecustomerstore_addstoreid_to_grid>
+                        <type>model</type>
+                        <class>activecustomerstore/observer</class>
+                        <method>addStoreIdToGrid</method>
+                    </activecustomerstore_addstoreid_to_grid>
+                </observers>
+            </adminhtml_block_html_before>
+
+            <core_block_abstract_prepare_layout_after>
+                <observers>
+                    <activecustomerstore_addstoreid_to_grid_csv>
+                        <type>singleton</type>
+                        <class>activecustomerstore/observer</class>
+                        <method>addStoreIdToGrid</method>
+                    </activecustomerstore_addstoreid_to_grid_csv>
+                </observers>
+            </core_block_abstract_prepare_layout_after>
+        </events>
+    </adminhtml>
+</config>
